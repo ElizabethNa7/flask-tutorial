@@ -1,3 +1,5 @@
+# BASE/CORE
+# PART 1: CREATE APP
 import os
 from flask import Flask # every Flask app is an instance of the Flask class
 
@@ -25,4 +27,12 @@ def create_app(test_config=None):
     def hello():
         return 'Hello, World!'
     
+# RELATED TO PART 2 where you created the DB
+    from . import db
+    db.init_app(app)
+    
+# RELATED TO PART 3 where you created the BLUEPRINT
+    from . import auth
+    app.register_blueprint(auth.bp) # the authentication blueprint now has views to register new users
+
     return app
