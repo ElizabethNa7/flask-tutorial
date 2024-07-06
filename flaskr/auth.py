@@ -1,4 +1,4 @@
-# terms: endpoint(s), blueprint(s)
+# remember: g (db.py), endpoint(s), blueprint(s)
 
 # PART 3: CREATE A BLUEPRINT
 import functools
