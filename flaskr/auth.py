@@ -1,9 +1,14 @@
+# terms: endpoint(s), blueprint(s)
+
 # PART 3: CREATE A BLUEPRINT
 import functools
 
 from flask import(
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
+# # url_for() generates the URL to a view based on a name + arguments. The name is called an endpoint, which is the unique identifier for view functions
+# example: url_for('hello', who='World')
+# # blueprint is a way to organize Flask apps into modular components. The name you give a bp is used to prefix the endpoints of all the bp's view functions
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -11,12 +16,13 @@ from flaskr.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth') # a blueprint called auth is created, and the url_prefix (/auth) will be prepended to all URLs associated with this blueprint
 
+
 # PART 4: Create the first view (page) for REGISTRATION
 # --> when the user visits the /auth/register URL, this register view will return HTML with a form for them to fill out
 # --> once submitted, it will validate their input and either show the form + error message or create the new user and go to the login page
 @bp.route('/register', methods=('GET', 'POST')) # bp.route associates the URL /register with the register view function
 def register():
-    if register.method == 'POST': # if the user had submitted the form, the POST method is used and the input starts getting validated
+    if request.method == 'POST': # if the user had submitted the form, the POST method is used and the input starts getting validated
         username = request.form['username'] # request.form is dict mapping of submitted form keys and values
         password = request.form['password'] # Note: 'single quotes' are used for HTML template paths and certain string literals.
         db = get_db()
@@ -81,7 +87,15 @@ def load_logged_in_user(): # check if a user id is stored in the session, get th
 # PART 6B: log out
 bp.route('/logout')
 def logout():
-    session.clear() # rremove the user id from the session so load_logged_in_user won't have/use a user_id to load in subsequent requests
+    session.clear() # remove the user id from the session so load_logged_in_user won't have/use a user_id to load in subsequent requests
     return redirect(url_for('index'))
 
-#TODO: cont from Require Authentication
+# PART 6C: login required of user
+# use a decorator to check if the user is logged in for otherr features (creating, editing, deleting posts)
+def login_required(view):
+    @functools.wraps(view) 
+    def wrapped_view(**kwargs): # returns a new view function that wraps the original view it's applied to
+        if g.user is None: # if user is not loaded
+            return redirect(url_for('auth.login'))
+        return view(**kwargs) # kwargs is flexible and used so any view function can be wrapped regardless of its parameters
+    return wrapped_view
