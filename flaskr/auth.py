@@ -56,7 +56,7 @@ def login():
         db = get_db()
         error = None
         user = db.execute( # query (check/look) for the entered user
-            'SELECT * FROM user WHERE username = ?', (username)
+            'SELECT * FROM user WHERE username = ?', (username,)
         ).fetchone() # fetchone() returns one row from teh query
 
         if user is None:

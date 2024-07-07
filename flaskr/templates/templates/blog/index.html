@@ -1,0 +1,29 @@
+<!-- PART 7C: CREATE AN INDEX.HTML -->
+{% extends 'base.html' %}
+
+{% block header %} <!-- header block adds a link to the create view when a user is logged in -->
+<h1>{% block title %}Posts{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('blog.create') }}">New</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% for post in posts %}
+    <article class="post">
+        <header>
+            <div>
+                <h1>{{ post['title'] }}</h1>
+                <div class="about">by {{ post['username'] }} on {{ post['created'].strftime('%Y-%m-%d') }}</div>
+            </div>
+            {% if g.user['id'] == post['author_id'] %} <!-- if the user is the author of a post, they will have an Edit link to the update view of that post -->
+            <a class="action" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
+          {% endif %}
+        </header>
+        <p class="body">{{ post['body'] }}</p>
+    </article>
+    {% if not loop.last %} <!-- just a special jinja variable to display a line after each post except the last one to add visual separation -->
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}
