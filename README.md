@@ -15,6 +15,7 @@
 - PART 7A: CREATE blog BLUEPRINT (blog.py)
 - PART 7B: CREATE THE INDEX (wherre all the blog posts will be shown)
 - PART 7C: CREATE AN INDEX.HTML 
-- PART 8: CREATE THE CREATE VIEW (similar to the register view, but to create new posts instead of accounts)
+- PART 8A: CREATE THE CREATE VIEW (similar to the register view, but to create new posts instead of accounts)
+- PART 8B: 
 - PART 9: 
 - PART 10: 

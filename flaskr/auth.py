@@ -16,6 +16,27 @@ from flaskr.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth') # a blueprint called auth is created, and the url_prefix (/auth) will be prepended to all URLs associated with this blueprint
 
+# PART 6C: login required user
+# use a decorator to check if the user is logged in for otherr features (creating, editing, deleting posts)
+def login_required(view):
+    @functools.wraps(view) 
+    def wrapped_view(**kwargs): # returns a new view function that wraps the original view it's applied to
+        if g.user is None: # if user is not loaded
+            return redirect(url_for('auth.login'))
+        return view(**kwargs) # kwargs is flexible and used so any view function can be wrapped regardless of its parameters
+    return wrapped_view
+
+# PART 6A: check if user exists
+@bp.before_app_request # registers a function that runs before the view function, regardless of the URL requested
+def load_logged_in_user(): # check if a user id is stored in the session, get that user's data from the db, and store it in g.user (which lasts for the lenght of the request)
+    user_id = session.get('user_id')
+
+    if user_id is None:
+        g.user = None
+    else:
+        g.user = get_db().execute(
+            'SELECT * FROM user WHERE id = ?', (user_id,)
+        ).fetchone()
 
 # PART 4: Create the first view (page) for REGISTRATION
 # --> when the user visits the /auth/register URL, this register view will return HTML with a form for them to fill out
@@ -72,30 +93,9 @@ def login():
         flash(error)
     return render_template('auth/login.html')
 
-# PART 6A: check if user exists
-@bp.before_app_request # registers a function that runs before the view function, regardless of the URL requested
-def load_logged_in_user(): # check if a user id is stored in the session, get that user's data from the db, and store it in g.user (which lasts for the lenght of the request)
-    user_id = session.get('user_id')
-
-    if user_id is None:
-        g.user = None
-    else:
-        g.user = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
 
 # PART 6B: log out
-bp.route('/logout')
+@bp.route('/logout')
 def logout():
     session.clear() # remove the user id from the session so load_logged_in_user won't have/use a user_id to load in subsequent requests
     return redirect(url_for('index'))
-
-# PART 6C: login required of user
-# use a decorator to check if the user is logged in for otherr features (creating, editing, deleting posts)
-def login_required(view):
-    @functools.wraps(view) 
-    def wrapped_view(**kwargs): # returns a new view function that wraps the original view it's applied to
-        if g.user is None: # if user is not loaded
-            return redirect(url_for('auth.login'))
-        return view(**kwargs) # kwargs is flexible and used so any view function can be wrapped regardless of its parameters
-    return wrapped_view
