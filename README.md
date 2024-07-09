@@ -15,7 +15,9 @@
 - PART 7A: CREATE blog BLUEPRINT (blog.py)
 - PART 7B: CREATE THE INDEX (wherre all the blog posts will be shown)
 - PART 7C: CREATE AN INDEX.HTML 
-- PART 8A: CREATE THE CREATE VIEW (similar to the register view, but to create new posts instead of accounts)
-- PART 8B: 
-- PART 9: 
+- PART 8A: CREATE VIEW (similar to the register view, but to create new posts instead of accounts)
+- PART 8B: GET VIEW (get post. this function is used for UPDATE and DELETE functions)
+- PART 8C: UPDATE VIEW
+- PART 8D: DELETE VIEW
+- PART 9: PYTEST (fixtures, )
 - PART 10: 

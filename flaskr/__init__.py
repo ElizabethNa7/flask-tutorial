@@ -35,9 +35,9 @@ def create_app(test_config=None):
     from . import auth
     app.register_blueprint(auth.bp) # the authentication blueprint now has views to register new users
 
-# RELATED TO PART 7 after starting the BLOG BLUEPRRINT
+# RELATED TO PART 7 after starting the BLOG BLUEPRINT
     from . import blog
     app.register_blueprint(blog.bp)
-    app.add_url_rule('/', endpoint='index') # the blog blueprint has no url_prrefix so the index view will just be at / (since the blog is the main app feature, so this way it's at the main index)
+    app.add_url_rule('/', endpoint='index') # the blog blueprint has no url_prefix so the index view will just be at / (since the blog is the main app feature, so this way it's at the main index)
 
     return app
