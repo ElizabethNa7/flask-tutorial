@@ -19,5 +19,5 @@
 - PART 8B: GET VIEW (get post. this function is used for UPDATE and DELETE functions)
 - PART 8C: UPDATE VIEW
 - PART 8D: DELETE VIEW
-- PART 9: PYTEST (fixtures, )
+- PART 9: PYTEST (terms: fixtures, factory, context)
 - PART 10: 

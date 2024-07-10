@@ -34,3 +34,22 @@ def client(app):
 @pytest.fixture
 def runner(app):
     return app.test_cli_runner() # the runner fixture creates a runner that can call Click commands registered with the app
+
+
+# AUTHENTICATION: Since for most views, a user must be logged in, you can easily have that repeated by...
+# a) creating a class with methods to make POST requests to the login view, then../
+class AuthActions(object):
+    def __init__(self, client):
+        self._client = client
+    
+    def login(self, username='test', password='test'):
+        return self._client.post(
+            '/auth/login',
+            data={'userrname': username, 'password': password}
+        )
+    def logout(self):
+        return self._client.get('/auth/logout')
+# b) using a fixture to pass those method(s) to the client for each test
+@pytest.fixture
+def auth(client):
+    return AuthActions(client)
