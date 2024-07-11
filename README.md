@@ -19,5 +19,12 @@
 - PART 8B: GET VIEW (get post. this function is used for UPDATE and DELETE functions)
 - PART 8C: UPDATE VIEW
 - PART 8D: DELETE VIEW
-- PART 9: PYTEST (terms: fixtures, factory, context)
-- PART 10: 
+
+Testing with Pytest (terms: fixtures, factory, context)
+- note: when running I had to first do 2 things first to fix the directories and let conftest.py find the flaskr module...
+- . .venv/bin/activate
+- export PYTHONPATH=.
+- then run pytest
+- - run pytest -v to get a list of each test function
+- - run coverage run -m pytest to measure the code coverage of your tests
+- - run coverage report for a simple report

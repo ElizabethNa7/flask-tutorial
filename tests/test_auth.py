@@ -16,8 +16,8 @@ def test_register(client, app): # client.get() makes a GET request and returns t
         ).fetchone() is not None
 
 @pytest.mark.parametrize(('username', 'password', 'message'), ( # pytest.mark.parametrize tells Pytest to run the same test function with different arguments
-    ('', '', b'Username is required.'),                         # allows to test multiple invalid input + error messages without repeating similar code
-    ('a', '', b'Password is required.'),
+    ('', '', b'Please enter a username.'),                         # allows to test multiple invalid input + error messages without repeating similar code
+    ('a', '', b'Please enter a password.'),
     ('test', 'test', b'already registered'),
 ))
 def test_register_validate_input(client, username, password, message):
