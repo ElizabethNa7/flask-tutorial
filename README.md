@@ -24,7 +24,4 @@ Testing with Pytest (terms: fixtures, factory, context)
 - note: when running I had to first do 2 things first to fix the directories and let conftest.py find the flaskr module...
 - . .venv/bin/activate
 - export PYTHONPATH=.
-- then run pytest
-- - run pytest -v to get a list of each test function
-- - run coverage run -m pytest to measure the code coverage of your tests
-- - run coverage report for a simple report
+- then run pytest (or pytest -v to get a list of each test function, or coverage report for a simple report)
