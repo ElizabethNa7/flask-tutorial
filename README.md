@@ -3,7 +3,9 @@
 - activate your virtual environment (within flask-tutorial): . .venv/bin/activate
 - start/run the app: flask --app flaskr run --debug
 - initialize the db: flask --app flaskr init-db
-
+If having trouble running the app (and with stopping and rerunning it):
+- lsof -i :5000 (to identify the process(s) using the needed port (5000))
+- kill -9 [PID]
 
 ## Study/Review
 - PART 1: CREATE APP (__init__.py)

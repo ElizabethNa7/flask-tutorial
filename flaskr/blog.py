@@ -1,6 +1,5 @@
 # blog will list posts, allow logged in users to create posts, and allow the author to edit/delete their posts
 # PART 7A: CREATE A BLUEPRINT FOR BLOG FUNCTIONALITIES
-
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
@@ -8,6 +7,8 @@ from werkzeug.exceptions import abort
 
 from flaskr.auth import login_required
 from flaskr.db import get_db
+
+import feedparser
 
 bp = Blueprint('blog', __name__)
 
@@ -41,9 +42,14 @@ def get_post(id, check_author=True):
 @bp.route("/create", methods=('GET', 'POST'))
 @login_required
 def create():
+    feed = None
     if request.method == 'POST':
         title = request.form['title']
         body = request.form['body']
+        # feed_url = 'https://feed.desiringgod.org/link/23670/16736952/keep-rejoicing' # change to request.form and take the url as form input?
+        # feed = feedparser.parse('https://feed.desiringgod.org/link/23670/16736952/keep-rejoicing')
+        # feed = request.form['feed']
+        video_url = request.form['video_url']
         error = None
 
         if not title:
@@ -54,8 +60,8 @@ def create():
         else:
             db = get_db()
             db.execute(
-                'INSERT INTO post (title, body, author_id) VALUES (?, ?, ?)',
-                (title, body, g.user['id']),
+                'INSERT INTO post (title, body, video_url, author_id) VALUES (?, ?, ?, ?)',
+                (title, body, video_url, g.user['id']),
             )
             db.commit()
             return redirect(url_for('blog.index'))
@@ -71,6 +77,7 @@ def update(id): # this view takes id as an argument
     if request.method == 'POST':
         title = request.form['title']
         body = request.form['body']
+        video_url = request.form['video_url']
         error = None
     
         if not title:
@@ -80,9 +87,9 @@ def update(id): # this view takes id as an argument
         else:
             db = get_db()
             db.execute(
-                'UPDATE post SET title = ?, body = ?'
+                'UPDATE post SET title = ?, body = ?, video_url = ?'
                 ' WHERE id = ?',
-                (title, body, id)
+                (title, body, video_url, id)
             )
             db.commit()
             return redirect(url_for('blog.index'))

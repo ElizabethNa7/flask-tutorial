@@ -6,9 +6,30 @@
 
 {% block content %}
   <form method="post">
+      <label for="video_url">Video URL</label>
+      <input name="video_url" id="video_url" value="{{ request.form['video_url'] }}" readonly>
+
+      <div id="video-selection" style="margin: 1em 0; height: 200px; overflow-y: scroll;">
+          <h2>Select a video</h2>
+          <ul>
+              <!-- Example videos from the playlist -->
+              <li><a href="#" onclick="selectVideo('https://www.youtube.com/watch?v=QoVY-2eOQQU')">Video 1</a></li>
+              <li><a href="#" onclick="selectVideo('https://www.youtube.com/watch?v=dQw4w9WgXcQ')">Video 2</a></li>
+              <!-- Add more videos as needed -->
+          </ul>
+      </div>
+
+      <div style="margin: 1em 0;">
+          <iframe id="video-player" width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>
+      </div>
       <label for="title">Title</label>
       <input name="title" id="title" value="{{ request.form['title'] }}" required>
+      <label for="body">Notes</label>
       <textarea name="body" id="body">{{ request.form['body'] }}</textarea>
       <input type="submit" value="Save">
   </form>
 {% endblock %}
+<!--
+https://podcasts.apple.com/us/podcast/light-truth/id955100693
+https://rss.com/podcasts/lbe 
+https://feed.desiringgod.org/link/23670/16736952/keep-rejoicing\-->
